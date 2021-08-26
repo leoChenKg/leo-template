@@ -1,5 +1,7 @@
 ## leo-Template
-
+<p >
+  <a href="https://www.npmjs.com/package/leo-template"><img src="https://img.shields.io/npm/v/leo-template" /></a>
+</p>
 > 一个功能简单的模板引擎
 
 
@@ -87,7 +89,7 @@ console.log(complie("<p><%=data%></p>", { data: 123 })()) // 使用第上一次�
 
 | 名称          | 描述                                                         |
 | ------------- | ------------------------------------------------------------ |
-| `contentBase` | 统一放置模板的的目录，设置此项后续使用相关方法是时，传入相对于此的相对路径即可。**注意：必须配置模板存放目录的路径，可以通过这里设置，也可以在使用相关方法时设置，但必须得在一个地方设置。** |
+| `contentBase` | 统一放置模板的的目录，设置此项后续使用相关方法是时，传入相对于此的相对路径即可。**注意：如果全局和使用相关方法时都不配置此项，则会从项目开始查找名为 template 的目录作为模板存放根目录，如果没找到就会报错。** |
 | `useCache`    | 是否开启缓存。 默认为 `false`                                |
 
 ```js
@@ -100,7 +102,34 @@ leoTemp.setConfig({
 })
 ```
 
+配置的优先级 ：相关方法的配置项优先级 > 全局配置 。
 
+```js
+const { renderTemplate, complie } = require('./src')
+const path = require('path')
+const leoTemp = require('./src')
+
+leoTemp.setConfig({
+    contentBase: path.resolve(__dirname, 'template'),
+    useCache: false
+})
+
+let arr = [{ label: "列表项1", url: "/link1" }]
+
+// 单独配置项优先级高
+renderTemplate('./template.html', { arr }, { useCache: true, contentBase: path.join(__dirname, '/src/template'), })
+    .then((temp) => {
+        console.log(temp)
+    })
+
+renderTemplate('./template.html', { arr }, { useCache: true })
+    .then((temp) => {
+        console.log(temp)
+    })
+
+console.log(complie("<div><%= data %></div>", { data: 123 }, { useCache: true })())
+console.log(complie("<p><%= data %></p>", { data: 345 }, { useCache: true })())
+```
 
 
 

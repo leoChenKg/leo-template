@@ -1,16 +1,20 @@
 {
   "name": "leo-template",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": ["template","template engine","template tool"],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "md5": "^2.3.0"
+  } ,
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:leoChenKg/leo-template.git"
   }
 
 }

@@ -14,10 +14,9 @@ const compile = (str, data, opts = {}) => {
     }
 
     if (cacheRenderFn) { // 缓存过，不知有没有返回结果，
-        console.log('走缓存!!!!!!!!!!!!!!')
+        // console.log('使用缓存的函数')
         return (prop) => cacheRenderFn(prop || data)
     } else {
-        console.log('}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}complie不走缓存!!!!!!!!!!!!!!')
         let resStr = str
 
         resStr = "let str = '' \r\n ;with(data){\r\nstr+=\n`\n" + resStr
@@ -35,7 +34,13 @@ const compile = (str, data, opts = {}) => {
 
         let render = (prop) => fn(prop || data)
 
-        useCache && cache.setCache(cacheId, render)
+        if (useCache) {
+            // console.log('不走缓存，直接编译得到结果，并缓存结果')
+            cache.setCache(cacheId, render)
+        } else {
+            // console.log('不走缓存，直接编译得到结果，不缓存结果')
+        }
+
         return render
     }
 

@@ -5,6 +5,7 @@ const compile = require('./compile')
 const { readFile } = require('../utils')
 const configs = require('./configs')
 
+
 const ERRORS = {
     TEMPLATE_PATH_UNDEFINED: "Template path cannot be undefined!",
 }
@@ -30,11 +31,11 @@ const renderTemplate = (tempPath, data = {}, opts = {}) => {
         if (cacheRenderFn && useCache) { // 缓存过，不知有没有返回结果，
             let resTempStr = cacheRenderFn(data) // 得到 cacheRenderFn 返回值，为空说明前一次操作没有完成，需要监听，前一次完成获取缓存
             if (resTempStr) {  // 有缓存直接抛出结果返回
-                console.log('缓存：直接得到缓存值')
+                // console.log('使用缓存：直接抛出结果，同步')
                 resovle(resTempStr)
             } else { // 没有返回值，就直接 监听前一个的成功
                 cache.once(template.id, (renderFn) => { // renderFn 为前一个处理成功后返回的模板生成函数
-                    console.log('缓存：直接得到监听的缓存值')
+                    // console.log('使用缓存：监听前一个完成后并抛出结果，异步')
                     resovle(renderFn(data))
                 })
             }
@@ -48,8 +49,13 @@ const renderTemplate = (tempPath, data = {}, opts = {}) => {
                 // 解析模板
                 let render = compile(rawTemp, data)
                 resovle(render())
-                console.log('不走缓存：直接编译获取')
-                useCache && cache.setCacheWithEmit(template.id, render, template.id)
+
+                if (useCache) {
+                    // console.log('不使用缓存：直接编译返回结果，异步，缓存结果')
+                    cache.setCacheWithEmit(template.id, render, template.id)
+                } else {
+                    // console.log('不使用缓存：直接编译返回结果，异步，不缓存结果')
+                }
 
             } catch (err) {
                 reject(err)
