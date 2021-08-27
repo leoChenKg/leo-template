@@ -1,6 +1,6 @@
 {
   "name": "leo-template",
-  "version": "1.0.4",
+  "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -15,6 +15,9 @@
   "repository": {
     "type": "git",
     "url": "git@github.com:leoChenKg/leo-template.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.com/"
   }
 
 }
