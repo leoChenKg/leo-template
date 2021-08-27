@@ -9,6 +9,12 @@
 
 ## 使用
 
+### 安装
+
+```shell
+npm install leo-template
+```
+
 ### 模板语法
 
 `<%  %>` ：用来包裹 javascript 代码。
